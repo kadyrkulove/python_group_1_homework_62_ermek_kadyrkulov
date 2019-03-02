@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class SoftDeleteManager(models.Manager):
@@ -18,6 +19,9 @@ class Movie(models.Model):
     is_deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteManager()
+
+    def get_absolute_url(self):
+        return reverse('api_v1:movie-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.name
